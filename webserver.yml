@@ -1,9 +1,0 @@
----
-- become: yes
-  hosts: all
-  name: configure-webserver
-
-  tasks:
-    - name: run provision script
-      ansible.builtin.script: ./app/provision.sh
-...
