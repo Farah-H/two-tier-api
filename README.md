@@ -13,7 +13,7 @@ Save your AWS Keys in an `~/.aws/credentials` file (or wherever you keep your `.
 aws_access_key_id=<your-access-key>
 aws_secret_access_key=<your-secret-key>
 ```
-Here, `[rapha-prod]` indicates a *profile*. You need to switch to this profile using the following command. **Note**: this will not be persisted across terminal sessions. 
+Here, `[pollinate]` indicates a *profile*. You need to switch to this profile using the following command. **Note**: this will not be persisted across terminal sessions. 
 ```bash
 export AWS_PROFILE=pollinate
 ```
