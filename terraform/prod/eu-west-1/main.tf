@@ -1,4 +1,4 @@
-module "webserver" {
+module "flask-app" {
   source = "../../modules/flask-app/"
 
   region                = "eu-west-1"

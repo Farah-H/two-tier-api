@@ -1,10 +1,10 @@
 locals {
   # needs to be uploaded to aws ECR in advance
-  ecs_image_url = "500640810998.dkr.ecr.eu-west-1.amazonaws.com/pollinate:pollinate"
+  ecs_image_url = "${local.account_id}.dkr.ecr.eu-west-1.amazonaws.com/pollinate:latest"
 }
 
 resource "aws_ecs_task_definition" "ecs_task_definition" {
-  family                = "${local.name}-flask-app"
+  family                = "${local.name}-ecs-flask"
   container_definitions = <<DEFINITION
 [
   {
@@ -16,7 +16,7 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
     "logConfiguration": {
       "logDriver": "awslogs",
       "options": {
-        "awslogs-group": "ecs-logs",
+        "awslogs-group": "${local.name}-ecs-logs",
         "awslogs-region": "eu-west-1",
         "awslogs-stream-prefix": "${local.name}-ecs-flask"
       }
@@ -45,7 +45,7 @@ resource "aws_ecs_cluster" "ecs_cluster" {
 }
 
 resource "aws_ecs_service" "service" {
-  name            = "${local.name}-app-service"
+  name            = "${local.name}-ecs-flask"
   cluster         = aws_ecs_cluster.ecs_cluster.id
   task_definition = aws_ecs_task_definition.ecs_task_definition.arn
 

@@ -35,6 +35,6 @@ variable "max_size" {
 }
 variable "instance_type" {
   type    = string
-  default = "t2.micro"
+  default = "m5.large"
 }
 

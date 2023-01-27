@@ -5,6 +5,8 @@ resource "aws_lb" "app" {
   security_groups    = [aws_security_group.ecs_sg.id]
   subnets            = module.vpc.public_subnets
   idle_timeout       = 30
+
+  enable_deletion_protection = false
 }
 
 resource "aws_lb_target_group" "ecs_tg" {
@@ -18,8 +20,8 @@ resource "aws_lb_target_group" "ecs_tg" {
     protocol = "HTTP"
 
     # one per AZ
-    healthy_threshold   = length(var.private_subnets_cidrs)
-    unhealthy_threshold = length(var.private_subnets_cidrs) - 1
+    healthy_threshold   = 3
+    unhealthy_threshold = 3
 
     timeout  = 2
     interval = 5
@@ -44,7 +46,7 @@ resource "aws_launch_configuration" "ecs_launch_config" {
   security_groups      = [aws_security_group.ecs_sg.id]
   instance_type        = var.instance_type
   iam_instance_profile = aws_iam_instance_profile.ec2_instance_profile.name
-  user_data            = "#!/bin/bash\necho ECS_CLUSTER=ecs_cluster >> /etc/ecs/ecs.config"
+  user_data            = "#!/bin/bash\necho ECS_CLUSTER=${local.name}-ecs-cluster >> /etc/ecs/ecs.config"
 }
 
 resource "aws_autoscaling_group" "ecs_asg" {
