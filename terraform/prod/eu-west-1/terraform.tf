@@ -6,6 +6,11 @@ terraform {
       source  = "hashicorp/aws"
       version = "4.50.0"
     }
+
+    docker = {
+      source  = "kreuzwerker/docker"
+      version = "2.15.0"
+    }
   }
 
   backend "s3" {
